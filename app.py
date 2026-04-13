@@ -6,6 +6,7 @@ import os
 
 app = Flask(__name__, static_folder='.')
 CORS(app)
+print("Files in directory:", os.listdir())
 
 # ── Load & prepare data (unchanged logic) ──────────────────────────────────────
 base_dir = os.path.dirname(os.path.abspath(__file__))
