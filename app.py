@@ -8,7 +8,9 @@ app = Flask(__name__, static_folder='.')
 CORS(app)
 
 # ── Load & prepare data (unchanged logic) ──────────────────────────────────────
-data = pd.read_csv("commercedata.csv")
+base_dir = os.path.dirname(os.path.abspath(__file__))
+file_path = os.path.join(base_dir, "commercedata.csv")
+data = pd.read_csv(file_path)
 
 if 'event' in data.columns:
     event_score = {'view': 1, 'addtocart': 2, 'purchase': 3}
