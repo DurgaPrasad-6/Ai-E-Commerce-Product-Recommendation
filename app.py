@@ -51,7 +51,11 @@ def recommend_products(customer_id, top_n=5):
 @app.route('/api/recommend', methods=['GET'])
 def api_recommend():
     try:
-        cid  = int(request.args.get('customer_id', ''))
+        cid = request.args.get('customer_id')
+if not cid:
+    return jsonify({"error": "customer_id required"}), 400
+
+cid = int(cid)
         top_n = int(request.args.get('top_n', 5))
         result = recommend_products(cid, top_n)
         if result is None:
