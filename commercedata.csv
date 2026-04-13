@@ -1,0 +1,201 @@
+customer_id,product_id,product_name,ratings
+3044,5002,samsung galaxy s24,4.9
+4099,5006,canon eos r50,4.6
+3022,5002,samsung galaxy s24,4.2
+4099,5013,dyson v15 vacuum,4.9
+3011,5011,xiaomi 14 pro,4.8
+4022,5018,lenovo ideapad slim 5,4.0
+4066,5035,lg double door fridge,4.0
+5022,5024,prestige induction,4.2
+3033,5003,sony bravia tv,4.7
+4011,5006,canon eos r50,4.9
+4033,5011,xiaomi 14 pro,4.4
+3077,5043,seagate backup plus,4.0
+4099,5016,anker powerbank 26k,3.9
+4022,5026,redmi pad se,3.7
+3077,5037,usha steam iron,4.4
+3099,5009,noise smartwatch pro,3.7
+4099,5035,lg double door fridge,4.2
+3022,5008,hp envy laptop,4.0
+3033,5025,iphone 15 pro,4.7
+4066,5034,voltas 1.5t split ac,4.1
+3044,5044,razer deathadder v3,4.9
+3099,5042,wd my passport 2tb,4.2
+4011,5028,samsung 870 evo ssd,4.2
+3011,5017,zebronics zeb-duke1,4.4
+3066,5033,tp-link wifi router,4.7
+4011,5041,oppo reno 11,4.2
+3033,5032,dell ultrasharp 27,4.9
+4077,5036,bajaj mixer grinder,3.8
+3077,5020,nikon z30 camera,4.4
+4066,5008,hp envy laptop,4.1
+3033,5022,mi 4k projector,3.7
+4099,5015,samsung galaxy tab s9,4.6
+3011,5005,bose soundbar 700,4.9
+3022,5022,mi 4k projector,3.8
+4077,5027,boat airdopes 141,3.5
+3044,5043,seagate backup plus,4.2
+4055,5027,boat airdopes 141,3.8
+3022,5044,razer deathadder v3,4.6
+3044,5004,whirlpool washing mach,4.1
+3077,5035,lg double door fridge,4.4
+3088,5005,bose soundbar 700,4.6
+4099,5007,asus rog phone 8,4.0
+3088,5011,xiaomi 14 pro,4.4
+4077,5014,gopro hero 12,4.9
+3022,5011,xiaomi 14 pro,4.4
+4044,5017,zebronics zeb-duke1,4.3
+4066,5019,philips air fryer,4.4
+4099,5043,seagate backup plus,4.5
+3055,5013,dyson v15 vacuum,4.4
+3022,5021,oneplus buds pro 2,3.9
+5011,5031,corsair k95 keyboard,4.5
+4088,5011,xiaomi 14 pro,4.1
+3033,5039,fire hd 10 tablet,3.8
+3088,5026,redmi pad se,3.5
+5011,5016,anker powerbank 26k,4.3
+3022,5040,jbl charge 5,4.1
+5011,5037,usha steam iron,4.0
+3055,5043,seagate backup plus,4.4
+3033,5001,apple macbook air,4.7
+5011,5007,asus rog phone 8,4.0
+4033,5019,philips air fryer,4.1
+4088,5001,apple macbook air,4.9
+4099,5020,nikon z30 camera,5.0
+3044,5009,noise smartwatch pro,3.7
+3044,5036,bajaj mixer grinder,3.8
+4011,5039,fire hd 10 tablet,3.9
+4022,5014,gopro hero 12,4.7
+3099,5033,tp-link wifi router,4.2
+3022,5006,canon eos r50,4.7
+3066,5029,logitech mx master 3,4.7
+3033,5045,titan smart watch,4.5
+4099,5003,sony bravia tv,4.9
+3055,5003,sony bravia tv,4.3
+3088,5043,seagate backup plus,3.8
+3066,5027,boat airdopes 141,3.3
+3088,5018,lenovo ideapad slim 5,4.0
+3044,5025,iphone 15 pro,5.0
+4066,5023,havells ceiling fan,3.8
+3088,5015,samsung galaxy tab s9,4.0
+3077,5026,redmi pad se,3.8
+3033,5018,lenovo ideapad slim 5,4.2
+4088,5026,redmi pad se,4.1
+3044,5017,zebronics zeb-duke1,3.5
+4055,5023,havells ceiling fan,4.3
+4022,5028,samsung 870 evo ssd,4.7
+4055,5001,apple macbook air,4.8
+4022,5040,jbl charge 5,4.3
+3044,5020,nikon z30 camera,4.6
+4055,5021,oneplus buds pro 2,4.2
+4055,5043,seagate backup plus,4.7
+3066,5040,jbl charge 5,4.6
+5011,5039,fire hd 10 tablet,4.4
+3077,5033,tp-link wifi router,4.2
+3066,5043,seagate backup plus,3.8
+4088,5043,seagate backup plus,4.4
+3088,5031,corsair k95 keyboard,4.6
+3033,5030,sony wh-1000xm5,4.7
+5011,5013,dyson v15 vacuum,4.9
+3044,5028,samsung 870 evo ssd,4.2
+4088,5030,sony wh-1000xm5,4.3
+4066,5043,seagate backup plus,4.3
+4066,5040,jbl charge 5,4.9
+4088,5028,samsung 870 evo ssd,4.9
+4099,5029,logitech mx master 3,5.0
+3088,5041,oppo reno 11,3.9
+4088,5032,dell ultrasharp 27,4.7
+4022,5035,lg double door fridge,4.0
+3055,5014,gopro hero 12,4.0
+4055,5025,iphone 15 pro,5.0
+5011,5045,titan smart watch,3.5
+5011,5025,iphone 15 pro,4.8
+4055,5035,lg double door fridge,4.7
+4099,5039,fire hd 10 tablet,4.7
+4044,5011,xiaomi 14 pro,4.9
+3055,5040,jbl charge 5,4.6
+4044,5038,realme narzo 60,4.1
+3055,5030,sony wh-1000xm5,4.4
+3099,5025,iphone 15 pro,4.7
+4066,5021,oneplus buds pro 2,4.2
+4055,5017,zebronics zeb-duke1,4.2
+3022,5023,havells ceiling fan,3.7
+3033,5042,wd my passport 2tb,3.8
+3011,5016,anker powerbank 26k,3.9
+3011,5040,jbl charge 5,4.2
+5022,5008,hp envy laptop,4.7
+3011,5020,nikon z30 camera,4.6
+4044,5026,redmi pad se,4.4
+3077,5005,bose soundbar 700,4.8
+3088,5007,asus rog phone 8,4.7
+3044,5037,usha steam iron,4.3
+4022,5001,apple macbook air,5.0
+4033,5041,oppo reno 11,4.6
+4066,5010,jbl flip 6 speaker,4.4
+4088,5042,wd my passport 2tb,4.1
+5011,5018,lenovo ideapad slim 5,4.2
+3088,5006,canon eos r50,4.3
+4066,5016,anker powerbank 26k,4.5
+5011,5040,jbl charge 5,4.7
+4022,5002,samsung galaxy s24,4.6
+4022,5012,lg oled tv 55,4.7
+5022,5045,titan smart watch,4.5
+4099,5001,apple macbook air,4.8
+3077,5006,canon eos r50,4.3
+4055,5032,dell ultrasharp 27,4.6
+3088,5045,titan smart watch,4.0
+3033,5019,philips air fryer,4.1
+3088,5020,nikon z30 camera,4.7
+4033,5031,corsair k95 keyboard,4.5
+4033,5028,samsung 870 evo ssd,5.0
+3066,5013,dyson v15 vacuum,4.3
+4077,5018,lenovo ideapad slim 5,4.6
+4088,5039,fire hd 10 tablet,4.0
+3044,5013,dyson v15 vacuum,4.4
+4033,5012,lg oled tv 55,4.5
+3022,5036,bajaj mixer grinder,3.9
+4066,5022,mi 4k projector,3.9
+3022,5017,zebronics zeb-duke1,4.3
+4044,5032,dell ultrasharp 27,4.1
+5011,5020,nikon z30 camera,4.1
+3088,5008,hp envy laptop,4.4
+4055,5039,fire hd 10 tablet,4.4
+5022,5015,samsung galaxy tab s9,4.9
+4011,5038,realme narzo 60,4.6
+4011,5037,usha steam iron,4.1
+5022,5007,asus rog phone 8,4.9
+3077,5041,oppo reno 11,3.8
+3033,5011,xiaomi 14 pro,4.3
+4099,5005,bose soundbar 700,4.3
+4055,5029,logitech mx master 3,4.9
+4011,5019,philips air fryer,4.7
+4066,5005,bose soundbar 700,4.9
+3077,5028,samsung 870 evo ssd,4.1
+3099,5010,jbl flip 6 speaker,4.0
+3066,5020,nikon z30 camera,4.7
+5011,5019,philips air fryer,4.4
+5011,5038,realme narzo 60,4.5
+3066,5031,corsair k95 keyboard,4.5
+4066,5018,lenovo ideapad slim 5,4.0
+5011,5028,samsung 870 evo ssd,4.7
+4077,5006,canon eos r50,4.5
+4055,5022,mi 4k projector,4.1
+3044,5011,xiaomi 14 pro,4.4
+3044,5026,redmi pad se,4.4
+3011,5043,seagate backup plus,4.7
+4066,5027,boat airdopes 141,3.4
+4088,5024,prestige induction,4.3
+3022,5014,gopro hero 12,4.2
+4077,5008,hp envy laptop,3.8
+5022,5016,anker powerbank 26k,4.5
+4011,5036,bajaj mixer grinder,3.6
+4011,5033,tp-link wifi router,4.5
+4055,5031,corsair k95 keyboard,5.0
+3088,5030,sony wh-1000xm5,4.8
+4044,5013,dyson v15 vacuum,5.0
+4088,5009,noise smartwatch pro,4.4
+3099,5027,boat airdopes 141,3.7
+3055,5029,logitech mx master 3,4.7
+4033,5022,mi 4k projector,4.3
+4099,5025,iphone 15 pro,4.8
+4022,5013,dyson v15 vacuum,5.0
