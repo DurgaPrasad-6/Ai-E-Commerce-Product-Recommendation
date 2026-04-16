@@ -4,19 +4,31 @@ import pandas as pd
 from sklearn.metrics.pairwise import cosine_similarity
 import os
 
+print("=== DEBUG START ===")
+print("Current directory:", os.getcwd())
+print("Files:", os.listdir())
+print("=== DEBUG END ===")
+
 app = Flask(__name__, static_folder='.')
 CORS(app)
-print("Files in directory:", os.listdir())
 
-# ── Load & prepare data (unchanged logic) ──────────────────────────────────────
+# File path fix
 base_dir = os.path.dirname(os.path.abspath(__file__))
 file_path = os.path.join(base_dir, "commercedata.csv")
+
+print("CSV path:", file_path)
+print("File exists:", os.path.exists(file_path))
+
+# Load dataset
 data = pd.read_csv(file_path)
 
+print("Columns in dataset:", data.columns.tolist())
+
+# Fix rating column
 if 'event' in data.columns:
     event_score = {'view': 1, 'addtocart': 2, 'purchase': 3}
     data['rating'] = data['event'].map(event_score)
-
+    
 user_col    = 'customer_id'
 product_col = 'product_id'
 ratings_col = 'rating'
@@ -82,4 +94,5 @@ def index():
     index.html
 
 if __name__ == '__main__':
-    app.run(debug="0.0.0.0", port=5000)
+    port = int(os.environ.get("PORT", 5000))
+    app.run(host="0.0.0.0", port=port)
