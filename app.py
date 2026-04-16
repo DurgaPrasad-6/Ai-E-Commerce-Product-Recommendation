@@ -4,31 +4,16 @@ import pandas as pd
 from sklearn.metrics.pairwise import cosine_similarity
 import os
 
-print("=== DEBUG START ===")
-print("Current directory:", os.getcwd())
-print("Files:", os.listdir())
-print("=== DEBUG END ===")
-
 app = Flask(__name__, static_folder='.')
 CORS(app)
 
-# File path fix
-base_dir = os.path.dirname(os.path.abspath(__file__))
-file_path = os.path.join(base_dir, "commercedata.csv")
+# ── Load & prepare data (unchanged logic) ──────────────────────────────────────
+data = pd.read_csv("commercedata.csv")
 
-print("CSV path:", file_path)
-print("File exists:", os.path.exists(file_path))
-
-# Load dataset
-data = pd.read_csv(file_path)
-
-print("Columns in dataset:", data.columns.tolist())
-
-# Fix rating column
 if 'event' in data.columns:
     event_score = {'view': 1, 'addtocart': 2, 'purchase': 3}
     data['rating'] = data['event'].map(event_score)
-    
+
 user_col    = 'customer_id'
 product_col = 'product_id'
 ratings_col = 'rating'
@@ -64,23 +49,12 @@ def recommend_products(customer_id, top_n=5):
 @app.route('/api/recommend', methods=['GET'])
 def api_recommend():
     try:
-        cid = request.args.get('customer_id')
-        if not cid:
-            return jsonify({"error": "customer_id required"}), 400
-
-        cid = int(cid)
+        cid  = int(request.args.get('customer_id', ''))
         top_n = int(request.args.get('top_n', 5))
-
         result = recommend_products(cid, top_n)
-
         if result is None:
             return jsonify({"error": "Customer not found"}), 404
-
-        return jsonify({
-            "customer_id": cid,
-            "recommendations": result
-        })
-
+        return jsonify({"customer_id": cid, "recommendations": result})
     except (ValueError, TypeError):
         return jsonify({"error": "Invalid customer ID"}), 400
 
@@ -91,8 +65,7 @@ def api_customers():
 
 @app.route('/')
 def index():
-    index.html
+    return send_from_directory('.', 'index.html')
 
 if __name__ == '__main__':
-    port = int(os.environ.get("PORT", 5000))
-    app.run(host="0.0.0.0", port=port)
+    app.run(debug=True, port=5000)
