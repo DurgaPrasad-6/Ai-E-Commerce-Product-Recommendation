@@ -1,0 +1,556 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>E-Commerce — Smart Product Recommendations</title>
+  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Mono:wght@300;400;500&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg:        #07080d;
+      --surface:   #0f1117;
+      --border:    #1e2230;
+      --accent:    #00e5ff;
+      --accent2:   #7c3aed;
+      --text:      #e8eaf0;
+      --muted:     #5a6278;
+      --card-bg:   #111420;
+      --success:   #00ffb3;
+      --error:     #ff4d6d;
+      --glow:      0 0 32px rgba(0,229,255,0.15);
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: 'DM Mono', monospace;
+      background: var(--bg);
+      color: var(--text);
+      min-height: 100vh;
+      overflow-x: hidden;
+    }
+
+    /* ── Animated grid background ── */
+    body::before {
+      content: '';
+      position: fixed;
+      inset: 0;
+      background-image:
+        linear-gradient(rgba(0,229,255,0.03) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(0,229,255,0.03) 1px, transparent 1px);
+      background-size: 48px 48px;
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    /* ── Glow blob ── */
+    .blob {
+      position: fixed;
+      width: 600px; height: 600px;
+      background: radial-gradient(circle, rgba(124,58,237,0.12) 0%, transparent 70%);
+      border-radius: 50%;
+      top: -150px; right: -150px;
+      pointer-events: none;
+      z-index: 0;
+      animation: blobFloat 8s ease-in-out infinite;
+    }
+    @keyframes blobFloat {
+      0%,100% { transform: translate(0,0) scale(1); }
+      50%      { transform: translate(-30px, 40px) scale(1.05); }
+    }
+
+    /* ── Layout ── */
+    .wrapper {
+      position: relative;
+      z-index: 1;
+      max-width: 900px;
+      margin: 0 auto;
+      padding: 0 24px;
+    }
+
+    /* ── Header ── */
+    header {
+      padding: 56px 0 48px;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      animation: fadeDown 0.7s ease both;
+    }
+    @keyframes fadeDown {
+      from { opacity:0; transform:translateY(-18px); }
+      to   { opacity:1; transform:translateY(0); }
+    }
+
+    .badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: rgba(0,229,255,0.08);
+      border: 1px solid rgba(0,229,255,0.2);
+      color: var(--accent);
+      font-size: 11px;
+      font-weight: 500;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      padding: 6px 14px;
+      border-radius: 100px;
+      width: fit-content;
+    }
+    .badge-dot {
+      width: 6px; height: 6px;
+      background: var(--accent);
+      border-radius: 50%;
+      animation: pulse 2s infinite;
+    }
+    @keyframes pulse {
+      0%,100% { opacity:1; transform:scale(1); }
+      50%      { opacity:0.4; transform:scale(0.7); }
+    }
+
+    h1 {
+      font-family: 'Syne', sans-serif;
+      font-size: clamp(36px, 6vw, 64px);
+      font-weight: 800;
+      line-height: 1.05;
+      letter-spacing: -0.03em;
+      color: var(--text);
+    }
+    h1 span {
+      background: linear-gradient(90deg, var(--accent), var(--accent2));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    .subtitle {
+      color: var(--muted);
+      font-size: 14px;
+      max-width: 420px;
+      line-height: 1.7;
+    }
+
+    /* ── Card ── */
+    .card {
+      background: var(--card-bg);
+      border: 1px solid var(--border);
+      border-radius: 20px;
+      padding: 36px;
+      margin-bottom: 28px;
+      animation: fadeUp 0.6s ease both;
+    }
+    @keyframes fadeUp {
+      from { opacity:0; transform:translateY(20px); }
+      to   { opacity:1; transform:translateY(0); }
+    }
+    .card:nth-child(2) { animation-delay: 0.1s; }
+    .card:nth-child(3) { animation-delay: 0.2s; }
+
+    .card-label {
+      font-size: 10px;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: var(--muted);
+      margin-bottom: 20px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .card-label::after {
+      content: '';
+      flex: 1;
+      height: 1px;
+      background: var(--border);
+    }
+
+    /* ── Input row ── */
+    .input-row {
+      display: flex;
+      gap: 12px;
+      align-items: flex-end;
+      flex-wrap: wrap;
+    }
+
+    .field {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      flex: 1;
+      min-width: 160px;
+    }
+    label {
+      font-size: 11px;
+      color: var(--muted);
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+    }
+
+    input[type="number"], input[type="text"], select {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      color: var(--text);
+      font-family: 'DM Mono', monospace;
+      font-size: 15px;
+      padding: 14px 18px;
+      border-radius: 12px;
+      outline: none;
+      transition: border-color 0.2s, box-shadow 0.2s;
+      width: 100%;
+      -moz-appearance: textfield;
+    }
+    input::-webkit-outer-spin-button,
+    input::-webkit-inner-spin-button { -webkit-appearance: none; }
+
+    input:focus, select:focus {
+      border-color: var(--accent);
+      box-shadow: 0 0 0 3px rgba(0,229,255,0.1);
+    }
+    select option { background: var(--surface); }
+
+    /* ── Button ── */
+    .btn {
+      background: var(--accent);
+      color: #000;
+      font-family: 'Syne', sans-serif;
+      font-size: 14px;
+      font-weight: 700;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      padding: 14px 32px;
+      border: none;
+      border-radius: 12px;
+      cursor: pointer;
+      transition: transform 0.15s, box-shadow 0.15s, background 0.15s;
+      white-space: nowrap;
+      min-width: 160px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+    }
+    .btn:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 24px rgba(0,229,255,0.3);
+    }
+    .btn:active { transform: translateY(0); }
+    .btn:disabled {
+      opacity: 0.5;
+      cursor: not-allowed;
+      transform: none;
+      box-shadow: none;
+    }
+
+    /* ── Spinner ── */
+    .spinner {
+      width: 16px; height: 16px;
+      border: 2px solid rgba(0,0,0,0.3);
+      border-top-color: #000;
+      border-radius: 50%;
+      animation: spin 0.6s linear infinite;
+      display: none;
+    }
+    @keyframes spin { to { transform: rotate(360deg); } }
+    .btn.loading .spinner { display: block; }
+    .btn.loading .btn-text { display: none; }
+
+    /* ── Hint chips ── */
+    .hint-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-top: 16px;
+    }
+    .chip {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      color: var(--muted);
+      font-size: 11px;
+      padding: 5px 12px;
+      border-radius: 100px;
+      cursor: pointer;
+      transition: all 0.15s;
+      font-family: 'DM Mono', monospace;
+    }
+    .chip:hover {
+      border-color: var(--accent);
+      color: var(--accent);
+      background: rgba(0,229,255,0.05);
+    }
+    .hint-label {
+      font-size: 11px;
+      color: var(--muted);
+      display: flex;
+      align-items: center;
+      align-self: center;
+    }
+
+    /* ── Results ── */
+    #results-section { display: none; }
+
+    .results-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 20px;
+      flex-wrap: wrap;
+      gap: 12px;
+    }
+    .results-title {
+      font-family: 'Syne', sans-serif;
+      font-size: 18px;
+      font-weight: 700;
+    }
+    .results-meta {
+      font-size: 11px;
+      color: var(--muted);
+      background: var(--surface);
+      border: 1px solid var(--border);
+      padding: 6px 14px;
+      border-radius: 100px;
+    }
+
+    .product-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+      gap: 16px;
+    }
+
+    .product-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 22px;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      transition: border-color 0.2s, transform 0.2s, box-shadow 0.2s;
+      animation: cardIn 0.4s ease both;
+    }
+    @keyframes cardIn {
+      from { opacity:0; transform:translateY(12px) scale(0.97); }
+      to   { opacity:1; transform:translateY(0) scale(1); }
+    }
+    .product-card:hover {
+      border-color: var(--accent);
+      transform: translateY(-4px);
+      box-shadow: var(--glow);
+    }
+
+    .product-rank {
+      font-size: 10px;
+      color: var(--accent);
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+    }
+    .product-name {
+      font-family: 'Syne', sans-serif;
+      font-size: 16px;
+      font-weight: 600;
+      line-height: 1.3;
+      color: var(--text);
+      flex: 1;
+    }
+    .product-id {
+      font-size: 11px;
+      color: var(--muted);
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+    .product-id::before {
+      content: '#';
+      color: var(--accent2);
+    }
+
+    /* ── Error / empty ── */
+    .alert {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 16px 20px;
+      border-radius: 12px;
+      font-size: 13px;
+    }
+    .alert-error {
+      background: rgba(255,77,109,0.08);
+      border: 1px solid rgba(255,77,109,0.3);
+      color: var(--error);
+    }
+    .alert-empty {
+      background: rgba(0,229,255,0.04);
+      border: 1px solid var(--border);
+      color: var(--muted);
+    }
+
+    /* ── Footer ── */
+    footer {
+      padding: 40px 0 60px;
+      text-align: center;
+      color: var(--muted);
+      font-size: 11px;
+      letter-spacing: 0.08em;
+    }
+    footer span { color: var(--accent2); }
+
+    /* ── Responsive ── */
+    @media (max-width: 500px) {
+      .card { padding: 24px 20px; }
+      .input-row { flex-direction: column; }
+      .btn { width: 100%; }
+    }
+  </style>
+</head>
+<body>
+<div class="blob"></div>
+
+<div class="wrapper">
+
+  <!-- Header -->
+  <header>
+    <div class="badge"><span class="badge-dot"></span>Collaborative Filtering Engine</div>
+    <h1>Reco<span>Engine</span></h1>
+    <p class="subtitle">Enter a customer ID to get AI-powered product recommendations using cosine similarity.</p>
+  </header>
+
+  <!-- Input Card -->
+  <div class="card">
+    <div class="card-label">Query Parameters</div>
+    <div class="input-row">
+      <div class="field">
+        <label for="customerId">Customer ID</label>
+        <input type="number" id="customerId" placeholder="e.g. 1042" min="1" />
+      </div>
+      <div class="field" style="max-width:140px;">
+        <label for="topN">Results (top N)</label>
+        <input type="number" id="topN" value="5" min="1" max="20" />
+      </div>
+      <button class="btn" id="searchBtn" onclick="fetchRecommendations()">
+        <div class="spinner"></div>
+        <span class="btn-text">Recommend →</span>
+      </button>
+    </div>
+
+    <!-- Quick-pick chips (populated from API) -->
+    <div class="hint-row" id="chipRow">
+      <span class="hint-label">Quick pick →</span>
+    </div>
+  </div>
+
+  <!-- Results Card -->
+  <div class="card" id="results-section">
+    <div class="card-label">Recommendations</div>
+    <div class="results-header">
+      <div class="results-title" id="resultsTitle">—</div>
+      <div class="results-meta" id="resultsMeta"></div>
+    </div>
+    <div id="resultsBody"></div>
+  </div>
+
+  <footer>Built with <span>♥</span> · RecoEngine · Powered by scikit-learn &amp; Flask</footer>
+</div>
+
+<script>
+  const API = 'http://localhost:5000';
+
+  /* ── Load customer IDs for chips ── */
+  async function loadCustomers() {
+    try {
+      const r = await fetch(`${API}/api/customers`);
+      const d = await r.json();
+      const chips = d.customer_ids.slice(0, 8);
+      const row   = document.getElementById('chipRow');
+      chips.forEach(id => {
+        const c = document.createElement('button');
+        c.className = 'chip';
+        c.textContent = `ID ${id}`;
+        c.onclick = () => {
+          document.getElementById('customerId').value = id;
+          fetchRecommendations();
+        };
+        row.appendChild(c);
+      });
+    } catch { /* server not ready yet */ }
+  }
+
+  /* ── Fetch recommendations ── */
+  async function fetchRecommendations() {
+    const cid   = document.getElementById('customerId').value.trim();
+    const topN  = document.getElementById('topN').value || 5;
+    const btn   = document.getElementById('searchBtn');
+    const body  = document.getElementById('resultsBody');
+    const sec   = document.getElementById('results-section');
+
+    if (!cid) {
+      document.getElementById('customerId').focus();
+      return;
+    }
+
+    btn.classList.add('loading');
+    btn.disabled = true;
+    sec.style.display = 'block';
+    body.innerHTML = '';
+    document.getElementById('resultsTitle').textContent = `Customer #${cid}`;
+    document.getElementById('resultsMeta').textContent  = `top ${topN} picks`;
+
+    try {
+      const res  = await fetch(`${API}/api/recommend?customer_id=${cid}&top_n=${topN}`);
+      const data = await res.json();
+
+      if (!res.ok) {
+        body.innerHTML = `
+          <div class="alert alert-error">
+            ⚠ ${data.error || 'Something went wrong. Check your backend.'}
+          </div>`;
+        return;
+      }
+
+      const items = data.recommendations;
+      if (!items || items.length === 0) {
+        body.innerHTML = `
+          <div class="alert alert-empty">
+            No recommendations found for this customer.
+          </div>`;
+        return;
+      }
+
+      const grid = document.createElement('div');
+      grid.className = 'product-grid';
+      items.forEach((item, i) => {
+        const card = document.createElement('div');
+        card.className = 'product-card';
+        card.style.animationDelay = `${i * 0.07}s`;
+        card.innerHTML = `
+          <div class="product-rank">Pick #${i + 1}</div>
+          <div class="product-name">${escapeHtml(item.name)}</div>
+          <div class="product-id">${item.id}</div>
+        `;
+        grid.appendChild(card);
+      });
+      body.appendChild(grid);
+
+    } catch (err) {
+      body.innerHTML = `
+        <div class="alert alert-error">
+          ⚠ Cannot reach backend. Make sure <code>app.py</code> is running on port 5000.
+        </div>`;
+    } finally {
+      btn.classList.remove('loading');
+      btn.disabled = false;
+    }
+  }
+
+  /* ── Enter key shortcut ── */
+  document.getElementById('customerId').addEventListener('keydown', e => {
+    if (e.key === 'Enter') fetchRecommendations();
+  });
+
+  function escapeHtml(s) {
+    return String(s)
+      .replace(/&/g,'&amp;').replace(/</g,'&lt;')
+      .replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+  }
+
+  loadCustomers();
+</script>
+</body>
+</html>
