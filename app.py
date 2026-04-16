@@ -53,15 +53,22 @@ def recommend_products(customer_id, top_n=5):
 def api_recommend():
     try:
         cid = request.args.get('customer_id')
-if not cid:
-    return jsonify({"error": "customer_id required"}), 400
+        if not cid:
+            return jsonify({"error": "customer_id required"}), 400
 
-cid = int(cid)
+        cid = int(cid)
         top_n = int(request.args.get('top_n', 5))
+
         result = recommend_products(cid, top_n)
+
         if result is None:
             return jsonify({"error": "Customer not found"}), 404
-        return jsonify({"customer_id": cid, "recommendations": result})
+
+        return jsonify({
+            "customer_id": cid,
+            "recommendations": result
+        })
+
     except (ValueError, TypeError):
         return jsonify({"error": "Invalid customer ID"}), 400
 
