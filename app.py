@@ -45,8 +45,8 @@ def recommend_products(customer_id, top_n=5):
     return [{"id": pid, "name": product_map.get(pid, "Unknown Product")} for pid in final_ids]
 
 # ── API routes ─────────────────────────────────────────────────────────────────
-@app.route('/api/recommend', methods=['GET'])
-def api_recommend():
+@app.route('/api/recommend')
+def recommend():
     try:
         cid  = int(request.args.get('customer_id', ''))
         top_n = int(request.args.get('top_n', 5))
