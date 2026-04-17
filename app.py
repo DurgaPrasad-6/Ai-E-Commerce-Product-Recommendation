@@ -3,18 +3,13 @@ from flask_cors import CORS
 import pandas as pd
 from sklearn.metrics.pairwise import cosine_similarity
 import os
-print("Current Directory:", os.getcwd())
-print("Files in Directory:", os.listdir())
 
 app = Flask(__name__, static_folder='.')
 CORS(app)
 
 # ── Load & prepare data (unchanged logic) ──────────────────────────────────────
-BASE_DIR = os.path.dirname(os.path.abspath(__file__))
-file_path = os.path.join(BASE_DIR, "commercedata.csv")
-print("Dataset path:", file_path)
+data = pd.read_csv("commercedata.csv")
 
-data = pd.read_csv(file_path)
 if 'event' in data.columns:
     event_score = {'view': 1, 'addtocart': 2, 'purchase': 3}
     data['rating'] = data['event'].map(event_score)
@@ -50,39 +45,17 @@ def recommend_products(customer_id, top_n=5):
     return [{"id": pid, "name": product_map.get(pid, "Unknown Product")} for pid in final_ids]
 
 # ── API routes ─────────────────────────────────────────────────────────────────
-@app.route('/api/recommend')
-def recommend():
+@app.route('/api/recommend', methods=['GET'])
+def api_recommend():
     try:
-        cid = request.args.get('customer_id')
+        cid  = int(request.args.get('customer_id', ''))
         top_n = int(request.args.get('top_n', 5))
-
-        if not cid:
-            return jsonify({"error": "Customer ID required"}), 400
-
-        cid = int(cid)
-
-        # your recommendation logic here
-        recommendations = []
-
-        return jsonify({
-            "recommendations": recommendations
-        })
-
-    except Exception as e:
-        return jsonify({"error": str(e)}), 500
-   try:
-    # your logic here
-    cid = request.args.get('customer_id')
-
-    if not cid:
-        return jsonify({"error": "Customer ID required"})
-   except Exception as e:
-       return jsonify({"error": str(e)})
-       if result is None:
-           return jsonify({"error": "Customer not found"}), 404
-           return jsonify({"customer_id": cid, "recommendations": result})
-   except (ValueError, TypeError):
-       return jsonify({"error": "Invalid customer ID"}), 400
+        result = recommend_products(cid, top_n)
+        if result is None:
+            return jsonify({"error": "Customer not found"}), 404
+        return jsonify({"customer_id": cid, "recommendations": result})
+    except (ValueError, TypeError):
+        return jsonify({"error": "Invalid customer ID"}), 400
 
 @app.route('/api/customers', methods=['GET'])
 def api_customers():
