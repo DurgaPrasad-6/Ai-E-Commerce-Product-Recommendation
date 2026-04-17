@@ -450,13 +450,12 @@
 </div>
 
 <script>
-  const API_BASE = "https://ai-e-commerce-product-recommendation.onrender.com";
-  fetch("http://localhost:5000/api/recommend?...")
+  const API_URL = "https://ai-e-commerce-product-recommendation.onrender.com";
 
   /* ── Load customer IDs for chips ── */
   async function loadCustomers() {
     try {
-      const r = await fetch(`${API_BASE}/api/recommend?customer_id=${customerId}&top_n=${topN}`)
+      const r = await fetch(`${API_URL}/api/recommend?customer_id=${id}`)
       const d = await r.json();
       const chips = d.customer_ids.slice(0, 8);
       const row   = document.getElementById('chipRow');
@@ -494,7 +493,7 @@
     document.getElementById('resultsMeta').textContent  = `top ${topN} picks`;
 
     try {
-      const res  = await fetch(`${API_BASE}/api/customers`)
+      const res  = await fetch(`${API_URL}/api/customers`)
       const data = await res.json();
 
       if (!res.ok) {
@@ -532,7 +531,7 @@
     } catch (err) {
       body.innerHTML = `
         <div class="alert alert-error">
-          ⚠ "Cannot reach backend <code>app.py</code> Please check server connection." 
+          ⚠ "Cannot connect to backend server" 
         </div>`;
     } finally {
       btn.classList.remove('loading');
