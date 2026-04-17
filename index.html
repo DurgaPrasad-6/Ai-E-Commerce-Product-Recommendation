@@ -450,7 +450,8 @@
 </div>
 
 <script>
-  const API = 'http://localhost:5000';
+  const API_BASE = "https://ai-e-commerce-product-recommendation.onrender.com";
+  fetch("http://localhost:5000/api/recommend?...")
 
   /* ── Load customer IDs for chips ── */
   async function loadCustomers() {
@@ -493,7 +494,7 @@
     document.getElementById('resultsMeta').textContent  = `top ${topN} picks`;
 
     try {
-      const res  = await fetch(`${API}/api/recommend?customer_id=${cid}&top_n=${topN}`);
+      const res  = await fetch(`${API_BASE}/api/customers`)
       const data = await res.json();
 
       if (!res.ok) {
@@ -531,7 +532,7 @@
     } catch (err) {
       body.innerHTML = `
         <div class="alert alert-error">
-          ⚠ Cannot reach backend. Make sure <code>app.py</code> is running on port 5000.
+          ⚠ "Cannot reach backend <code>app.py</code> Please check server connection." 
         </div>`;
     } finally {
       btn.classList.remove('loading');
