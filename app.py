@@ -16,7 +16,7 @@ if 'event' in data.columns:
 
 user_col    = 'customer_id'
 product_col = 'product_id'
-ratings_col = 'ratings'
+ratings_col = 'rating'
 
 matrix = data.pivot_table(
     index=user_col,
