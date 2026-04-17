@@ -4,7 +4,7 @@ import pandas as pd
 from sklearn.metrics.pairwise import cosine_similarity
 import os
 
-app = Flask(__name__)
+app = Flask(__name__, static_folder='.')
 CORS(app)
 
 # ── Load & prepare data (unchanged logic) ──────────────────────────────────────
@@ -16,13 +16,12 @@ if 'event' in data.columns:
 
 user_col    = 'customer_id'
 product_col = 'product_id'
-ratings_col = 'rating'
+ratings_col = 'ratings'
 
 matrix = data.pivot_table(
     index=user_col,
     columns=product_col,
-    values=ratings_col
-).fillna(0)
+    values=ratings_col).fillna(0)
 
 similarity = cosine_similarity(matrix)
 similarity_df = pd.DataFrame(similarity, index=matrix.index, columns=matrix.index)
@@ -68,4 +67,4 @@ def index():
     return send_from_directory('.', 'index.html')
 
 if __name__ == '__main__':
-    app.run(host="0.0.0.0", port=5000)
+    app.run(debug=True, port=5000)
