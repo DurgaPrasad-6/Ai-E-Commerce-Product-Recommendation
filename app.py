@@ -12,7 +12,6 @@ CORS(app)
 # ── Load & prepare data (unchanged logic) ──────────────────────────────────────
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 file_path = os.path.join(BASE_DIR, "commercedata.csv")
-
 print("Dataset path:", file_path)
 
 data = pd.read_csv(file_path)
